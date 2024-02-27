@@ -108,8 +108,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <Title>Registration</Title>
   <div class="card-container">
+    <Title>Registration</Title>
     <AppCardTemplate>
       <template #main>
         <form
