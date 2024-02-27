@@ -1,12 +1,14 @@
 <script setup>
 import AppBlueButton from "../components/buttons/AppBlueButton.vue";
 import {useCreateFormStore} from "../store/useFormStore.js";
+import AppCardTemplate from "../components/card-template/AppCardTemplate.vue";
 
 const createForm = useCreateFormStore()
 </script>
 
 <template>
   <div class="card-container">
+    <Title>OTP</Title>
     <AppCardTemplate>
       <template #main>
         <form @submit.prevent>
@@ -17,7 +19,7 @@ const createForm = useCreateFormStore()
             </p>
             <NuxtLink
                 class="text-button-bg text-base font-bold"
-                to="/createAccount">Change email
+                to="/register">Change email
             </NuxtLink>
           </div>
           <div>
@@ -25,7 +27,7 @@ const createForm = useCreateFormStore()
                 :length="6"
                 :pt="{
           root: {class: ['gap-5']}
-        }"
+                }"
                 class="mb-6"
                 integerOnly>
               <template #default="{ attrs, events, index }">

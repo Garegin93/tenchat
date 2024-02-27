@@ -1,7 +1,10 @@
 const defaultFetch = (request, opts) => {
-    return $fetch(request, {
+
+    const baseHost = useRuntimeConfig().public.baseHost;
+
+    return $fetch(baseHost + request, {
         headers: {'Content-Type': 'application/json'},
-        credentials: 'include',
+        credentials: 'omit',
         ...opts
     })
 }

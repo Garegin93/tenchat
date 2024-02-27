@@ -6,6 +6,7 @@ import AppBlueButton from "../components/buttons/AppBlueButton.vue";
 import {useCreateFormStore} from "../store/useFormStore.js";
 import {useConfirm} from "primevue/useconfirm";
 import defaultFetch from "../composables/tools/defaultFetch.js";
+import AppCardTemplate from "../components/card-template/AppCardTemplate.vue";
 
 const confirm = useConfirm()
 
@@ -21,13 +22,15 @@ const createAccountField = reactive({
   isTermsChecked: false
 })
 
+// в Api нет метода для создания user. Это просто пример.
+
 const customFetch = async () => {
-  await defaultFetch('https://dummyjson.com/auth/login', {
+  await defaultFetch('auth/login', {
     method: 'POST',
     body: JSON.stringify(createAccountField),
     onResponse({response}) {
       if (response.status === 200) {
-        console.log('succes')
+        console.log('success')
       }
     }
   })
@@ -65,7 +68,9 @@ const fillFormFromStore = () => {
 const submitCreateForm = () => {
   customFetch()
   createForm.setCreateForm(createAccountField)
-  router.push('/otpLogin')
+  router.push({
+    path: '/otp',
+  })
 }
 
 const confirm1 = (event) => {
@@ -103,6 +108,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <Title>Registration</Title>
   <div class="card-container">
     <AppCardTemplate>
       <template #main>

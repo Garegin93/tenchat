@@ -7,7 +7,7 @@ const defaultCreateFormValue = {
 }
 
 const defaultFormValue = {
-    email: '',
+    username: '',
     password: ''
 }
 
@@ -22,9 +22,6 @@ export const useLoginFormStore = defineStore('formStore', {
         setForm(params) {
             this.form = params
         }
-    },
-    resetForm() {
-        this.form = defaultFormValue
     }
 })
 

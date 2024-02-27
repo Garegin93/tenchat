@@ -1,7 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     devtools: {enabled: true},
-    css: ['~/assets/css/main.css', 'primevue/resources/themes/aura-light-green/theme.css'],
+    css: [
+        '~/assets/css/main.css',
+        'primevue/resources/themes/aura-light-green/theme.css'
+    ],
     app: {
         pageTransition: {name: 'page', mode: 'out-in'}
     },
@@ -11,13 +14,17 @@ export default defineNuxtConfig({
             autoprefixer: {}
         }
     },
-    modules: ['@pinia/nuxt', 'nuxt-svgo', 'nuxt-primevue', ['@nuxtjs/google-fonts', {
-        families: {
-            Montserrat: {
-                wght: [400, 500, 700, 900]
+    modules: [
+        '@pinia/nuxt',
+        'nuxt-svgo',
+        'nuxt-primevue',
+        ['@nuxtjs/google-fonts', {
+            families: {
+                Montserrat: {
+                    wght: [400, 500, 700, 900]
+                }
             }
-        }
-    }]],
+        }]],
     svgo: {
         autoImportPath: './assets/icons/',
         defaultImport: 'component'
@@ -27,7 +34,21 @@ export default defineNuxtConfig({
     },
     primevue: {
         components: {
-            include: ['IconField', 'InputIcon', 'InputText', 'Password', 'InputOtp', 'Checkbox', 'ConfirmPopup', 'ConfirmDialog']
+            include: [
+                'IconField',
+                'InputIcon',
+                'InputText',
+                'Password',
+                'InputOtp',
+                'Checkbox',
+                'ConfirmPopup',
+                'ConfirmDialog'
+            ]
+        }
+    },
+    runtimeConfig: {
+        public: {
+            baseHost: process.env.BASE_HOST
         }
     }
 })

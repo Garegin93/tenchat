@@ -4,21 +4,35 @@ import shieldIcon from '/assets/icons/shield_slash.svg'
 import {useLoginFormStore} from "../store/useFormStore.js";
 import AppBlueButton from "../components/buttons/AppBlueButton.vue";
 import defaultFetch from '/composables/tools/defaultFetch.js'
+import AppCardTemplate from "../components/card-template/AppCardTemplate.vue";
 
 const formStore = useLoginFormStore()
 
 const loginField = reactive({
-  email: '',
-  password: ''
+  username: '',
+  password: '',
+  isLoading: false,
 })
 const customFetch = async () => {
-  await defaultFetch('https://dummyjson.com/auth/login', {
+
+  loginField.isLoading = true;
+
+  await defaultFetch('auth/login', {
     method: 'POST',
-    body: JSON.stringify(loginField),
+    body: {
+      username: toRaw(loginField.username),
+      password: toRaw(loginField.password),
+    },
     onResponse({response}) {
       if (response.status === 200) {
-        console.log('succes')
+        useNuxtApp().$notify.success("Auth is successfully")
+        console.log(response._data.token)
       }
+      if (response.status === 400) {
+        useNuxtApp().$notify.warn("Login or Password is incorrect")
+      }
+
+      loginField.isLoading = false;
     }
   })
 }
@@ -26,16 +40,15 @@ const customFetch = async () => {
 const submitForm = () => {
   formStore.setForm(loginField)
   customFetch()
-  loginField.email = ""
-  loginField.password = ""
 }
 
-const checkEmptyFields = computed(() => !loginField.email || !loginField.password)
+const checkEmptyFields = computed(() => !loginField.username || !loginField.password || loginField.isLoading)
 
 </script>
 
 <template>
   <div class="card-container">
+    <Title>Login</Title>
     <AppCardTemplate>
       <template #main>
         <form @submit.prevent="submitForm">
@@ -56,12 +69,11 @@ const checkEmptyFields = computed(() => !loginField.email || !loginField.passwor
                     <emailIcon class="w-8 h-8"/>
                   </InputIcon>
                   <InputText
-                      v-model="loginField.email"
+                      v-model="loginField.username"
                       :pt="{
                           root: {class: ['input-style']}
                           }"
-                      placeholder="Email"
-                      type="email"/>
+                      placeholder="Email"/>
                 </IconField>
               </div>
               <div class="custom-password">
@@ -92,7 +104,7 @@ const checkEmptyFields = computed(() => !loginField.email || !loginField.passwor
             <p class="text-center">Don’t have account?
               <NuxtLink
                   class="text-button-bg font-semibold"
-                  to="/createAccount">Create an account
+                  to="/register">Create an account
               </NuxtLink>
             </p>
           </div>

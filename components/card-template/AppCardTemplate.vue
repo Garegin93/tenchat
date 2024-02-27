@@ -1,7 +1,3 @@
-<script setup>
-
-</script>
-
 <template>
   <div class="basis-1/2 bg-main-bg flex justify-center items-center p-10">
     <slot name="main"/>
