@@ -48,7 +48,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-            baseHost: process.env.BASE_HOST || 'https://dummyjson.com'
+            baseHost: process.env.BASE_HOST || 'https://dummyjson.com/'
         }
     }
 })
