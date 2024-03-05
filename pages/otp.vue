@@ -1,6 +1,6 @@
 <script setup>
 import AppBlueButton from "../components/buttons/AppBlueButton.vue";
-import {useCreateFormStore} from "../store/useFormStore.js";
+import {useCreateFormStore} from "../store/useCreateFormStore.js";
 import AppCardTemplate from "../components/card-template/AppCardTemplate.vue";
 
 const createForm = useCreateFormStore()
@@ -12,8 +12,8 @@ const createForm = useCreateFormStore()
     <AppCardTemplate>
       <template #main>
         <form @submit.prevent>
-          <div class="mb-6 text-[20px]">
-            <h2 class="text-[#09090B] font-bold text-[40px] leading-8">Enter OTP</h2>
+          <div class="mb-6 text-lg">
+            <h2 class="text-[#09090B] font-bold text-4xl leading-8">Enter OTP</h2>
             <p>Sent OTP on
               <span class="text-button-bg font-semibold">{{ createForm.getCreateForm?.email }}</span>
             </p>

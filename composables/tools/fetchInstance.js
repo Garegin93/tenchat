@@ -1,4 +1,4 @@
-const defaultFetch = (request, opts) => {
+const fetchInstance = (request, opts) => {
 
     const baseHost = useRuntimeConfig().public.baseHost;
 
@@ -9,4 +9,4 @@ const defaultFetch = (request, opts) => {
     })
 }
 
-export default defaultFetch
+export default fetchInstance

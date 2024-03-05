@@ -3,16 +3,16 @@ import emailIcon from '/assets/icons/envelope.svg'
 import shieldIcon from '/assets/icons/shield_slash.svg'
 import userIcon from '/assets/icons/user.svg'
 import AppBlueButton from "../components/buttons/AppBlueButton.vue";
-import {useCreateFormStore} from "../store/useFormStore.js";
+import {useCreateFormStore} from "../store/useCreateFormStore.js";
 import {useConfirm} from "primevue/useconfirm";
-import defaultFetch from "../composables/tools/defaultFetch.js";
+import fetchInstance from "../composables/tools/fetchInstance.js";
 import AppCardTemplate from "../components/card-template/AppCardTemplate.vue";
 
 const confirm = useConfirm()
 
-const router = useRouter()
-
 const createForm = useCreateFormStore()
+
+const router = useRouter()
 
 const createAccountField = reactive({
   username: '',
@@ -24,19 +24,27 @@ const createAccountField = reactive({
 
 // в Api нет метода для создания user. Это просто пример.
 
-const customFetch = async () => {
-  await defaultFetch('auth/login', {
+const customFetch = () => {
+  fetchInstance('auth/login', {
     method: 'POST',
-    body: JSON.stringify(createAccountField),
+    body: JSON.stringify(createForm.getCreateForm),
     onResponse({response}) {
       if (response.status === 200) {
-        console.log('success')
+        useNuxtApp().$notify.success("Auth is successfully")
+      }
+      if (response.status === 400) {
+        useNuxtApp().$notify.warn("Something went wrong. Check that the entered data is correct.")
       }
     }
   })
 }
 
+
+// Сравнение на совпадение паролей
+
 const comparePasswords = computed(() => createAccountField.password !== createAccountField.confirmPassword)
+
+//Проверка на все пустые поле
 
 const checkEmptyFields = computed(() =>
     !createAccountField.username ||
@@ -47,6 +55,8 @@ const checkEmptyFields = computed(() =>
     comparePasswords.value
 )
 
+//Проверка на хотябы одно пустое поле
+
 const checkFields = computed(() =>
     createAccountField.username !== '' ||
     createAccountField.email !== '' ||
@@ -54,6 +64,8 @@ const checkFields = computed(() =>
     createAccountField.confirmPassword !== '' ||
     createAccountField.isTermsChecked
 )
+
+//Удаление паролей при возвврате на страницу register
 
 const fillFormFromStore = () => {
   if (createForm.getCreateForm) {
@@ -65,13 +77,17 @@ const fillFormFromStore = () => {
   }
 }
 
+//Выполнение submit формы
+
 const submitCreateForm = () => {
-  customFetch()
   createForm.setCreateForm(createAccountField)
+  customFetch()
   router.push({
     path: '/otp',
   })
 }
+
+//Разрешение на возврат на страницу login
 
 const confirm1 = (event) => {
   if (checkFields.value) {
@@ -115,10 +131,10 @@ onMounted(() => {
         <form
             class="max-w-[29.8rem] w-full relative bottom-3"
             @submit.prevent="submitCreateForm">
-          <h2 class="text-[#09090B] font-bold text-[40px]">Create your account</h2>
-          <p class="text-[1.25rem] text-[#71717A] mb-[1.56rem]">Unlock all Features!</p>
+          <h2 class="text-[#09090B] font-bold text-4xl">Create your account</h2>
+          <p class="text-sm text-gray-color mb-6">Unlock all Features!</p>
           <div class="px-3">
-            <div class="flex flex-col gap-2.5 mb-[1.56rem]">
+            <div class="flex flex-col gap-2.5 mb-6">
               <div>
                 <IconField iconPosition="left">
                   <InputIcon

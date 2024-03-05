@@ -3,13 +3,13 @@
     <slot name="main"/>
   </div>
   <div
-      class="basis-1/2 bg-second-bg flex justify-center items-center relative px-[2.375rem] py-[3.625rem]">
+      class="basis-1/2 bg-second-bg flex justify-center items-center relative px-24 py-36">
     <div class="cyrcle-second"></div>
     <div class="z-10 object-cover object-center">
       <slot name="image"/>
     </div>
-    <div class="absolute bottom-[3.625rem] p-[3.125rem] text-center">
-      <p class="text-desc-title-color font-bold text-[20px]">
+    <div class="absolute bottom-14 p-12 text-center">
+      <p class="text-desc-title-color font-bold text-lg">
         <slot name="title"/>
       </p>
       <p class="text-desc-text-color font-medium">

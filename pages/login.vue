@@ -1,27 +1,29 @@
 <script setup>
 import emailIcon from '/assets/icons/envelope.svg'
 import shieldIcon from '/assets/icons/shield_slash.svg'
-import {useLoginFormStore} from "../store/useFormStore.js";
+import {useLoginFormStore} from "../store/useLoginFormStore.js";
 import AppBlueButton from "../components/buttons/AppBlueButton.vue";
-import defaultFetch from '/composables/tools/defaultFetch.js'
 import AppCardTemplate from "../components/card-template/AppCardTemplate.vue";
+import fetchInstance from "/composables/tools/fetchInstance.js";
 
 const formStore = useLoginFormStore()
 
 const loginField = reactive({
   username: '',
   password: '',
-  isLoading: false,
 })
-const customFetch = async () => {
 
-  loginField.isLoading = true;
+//Запрос на создание пользователя
 
-  await defaultFetch('auth/login', {
+const customFetch = () => {
+
+  formStore.setIsLoading(true)
+
+  fetchInstance('auth/login', {
     method: 'POST',
     body: {
-      username: toRaw(loginField.username),
-      password: toRaw(loginField.password),
+      username: toRaw(formStore.getForm.username),
+      password: toRaw(formStore.getForm.password),
     },
     onResponse({response}) {
       if (response.status === 200) {
@@ -31,18 +33,21 @@ const customFetch = async () => {
       if (response.status === 400) {
         useNuxtApp().$notify.warn("Login or Password is incorrect")
       }
-
-      loginField.isLoading = false;
+      formStore.setIsLoading(false)
     }
   })
 }
+
+//Выполнение submit формы
 
 const submitForm = () => {
   formStore.setForm(loginField)
   customFetch()
 }
 
-const checkEmptyFields = computed(() => !loginField.username || !loginField.password || loginField.isLoading)
+//Проверка на пустые поля формы
+
+const checkEmptyFields = computed(() => !loginField.username || !loginField.password || formStore.getIsLoading)
 
 </script>
 
@@ -52,14 +57,14 @@ const checkEmptyFields = computed(() => !loginField.username || !loginField.pass
     <AppCardTemplate>
       <template #main>
         <form @submit.prevent="submitForm">
-          <h2 class="text-[#09090B] font-bold text-[40px] mb-[1.56rem] leading-9">Login to your Account</h2>
+          <h2 class="text-[#09090B] font-bold text-4xl mb-6 leading-9">Login to your Account</h2>
           <div class="px-1">
             <div class="flex justify-center items-center mb-8">
-              <span class="w-[7.5rem] h-px bg-[#71717A] "></span>
-              <p class="text-center mx-auto text-[15px] font-medium text-[#71717A]">with email</p>
-              <span class="w-[7.5rem] h-px bg-[#71717A]"></span>
+              <span class="w-32 h-px bg-gray-color"></span>
+              <p class="text-center mx-auto text-sm font-medium text-gray-color">with email</p>
+              <span class="w-32 h-px bg-gray-color"></span>
             </div>
-            <div class="flex flex-col gap-2.5 mb-[1.56rem]">
+            <div class="flex flex-col gap-2.5 mb-6">
               <div>
                 <IconField iconPosition="left">
                   <InputIcon

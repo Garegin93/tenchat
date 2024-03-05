@@ -17,6 +17,7 @@ module.exports = {
                 'desc-title-color': '#E0EAFF',
                 'desc-text-color': 'rgba(224, 234, 255, 0.75)',
                 'button-bg': '#8098F9',
+                'gray-color': '#71717A',
             },
             backgroundImage: {
                 'cyrcle-gradient': 'linear-gradient(174deg, rgba(164, 188, 253, 0.20) 4.83%, rgba(68, 76, 231, 0.16) 91.13%), radial-gradient(50% 50% at 50% 50%, rgba(68, 76, 231, 0.16) 0%, rgba(68, 76, 231, 0.06) 100%)',
